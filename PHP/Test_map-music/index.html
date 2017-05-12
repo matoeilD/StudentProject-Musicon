@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<title>Test google map</title>
+</head>
+
+<body onload="initialize()">
+	<div id="map_canvas"></div> <br/>
+	<!-- Lecteur audio HTML 5 -->
+	<audio controls="controls" preload="none">
+		<source src="audio/music.mp3" type="audio/mp3" />
+		Votre navigateur n'est pas compatible
+	</audio>
+	
+	<script type="text/javascript">
+/*Fonction d'affichage de map et de géolocalisation*/
+function initialize() {
+/*Initialisation de la map*/
+  map = new google.maps.Map(document.getElementById("map_canvas")/*On récupère l'id de la div où on veut afficher la map*/ , {
+        zoom: 17,
+        center: new google.maps.LatLng(43.29179310000001, 5.390001100000063),/*Map centrée sur les coordonnées de l'EJCAM*/
+        mapTypeId: google.maps.MapTypeId.ROADMAP /*Type de carte à afficher, ici ROADMAP est un plan*/
+      });
+/*test pour savoir si le navigateur est compatible avec la géolocalisation*/
+if (navigator.geolocation)
+  var watchId = navigator.geolocation.watchPosition(successCallback,
+                            null,
+                            {enableHighAccuracy:true});
+else
+  alert("Votre navigateur ne prend pas en compte la géolocalisation HTML5");    
+ /*Fonction de géolocalisation*/
+	function successCallback(position){
+	map.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));/*centre la carte sur la position actuelle*/
+	/*Place le marqueur rouge sur la map*/
+	var marker = new google.maps.Marker({
+		position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude), 
+		map: map
+	}); 
+	}	  
+} 
+
+	</script>
+	
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js"></script>
+</body>
+</html>
